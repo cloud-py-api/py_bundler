@@ -129,6 +129,6 @@ jobs:
             BASE_INIT_2=${{ env.BASE_INIT_2 }}
           platforms: ${{ env.BUILD_PLATFORM }}
           push: true
-          cache-from: type=gha,scope=build-musllinux_$-${{ matrix.build_arch }}
+          cache-from: type=gha,scope=build-musllinux-${{ matrix.build_arch }}
           tags: ghcr.io/bigcat88/py_bundler/musllinux_${{ matrix.build_arch }}:latest
           target: framework

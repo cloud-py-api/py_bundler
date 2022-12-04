@@ -6,10 +6,12 @@ on:
     types: [opened, edited, reopened, synchronize]
     paths:
       - 'docker/build_framework.Dockerfile'
+      - 'scripts/*.*'
   push:
     branches: [master]
     paths:
       - 'docker/build_framework.Dockerfile'
+      - 'scripts/*.*'
   workflow_dispatch:
 
 concurrency:
