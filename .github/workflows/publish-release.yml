@@ -19,6 +19,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+        with:
+          repository: bigcat88/py_bundler
+          path: py_bundler
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
@@ -50,7 +54,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: docker/bundle_release.Dockerfile
+          file: py_bundler/docker/bundle_release.Dockerfile
           build-args: |
             BUILD_IMG=ghcr.io/bigcat88/py_bundler/manylinux_${{ matrix.build_arch }}:latest
           platforms: ${{ env.BUILD_PLATFORM }}
@@ -80,7 +84,7 @@ jobs:
           context: .
           platforms: ${{ env.BUILD_PLATFORM }}
           push: false
-          file: docker/test_release.Dockerfile
+          file: py_bundler/docker/test_release.Dockerfile
           build-args: |
             CPA_NAME=${{ env.BIN_NAME }}
             DISTRO_NAME=${{ env.TEST_DISTRO_NAME }}
@@ -95,6 +99,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+        with:
+          repository: bigcat88/py_bundler
+          path: py_bundler
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
@@ -126,7 +134,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: docker/bundle_release.Dockerfile
+          file: py_bundler/docker/bundle_release.Dockerfile
           build-args: |
             BUILD_IMG=ghcr.io/bigcat88/py_bundler/musllinux_${{ matrix.build_arch }}:latest
           platforms: ${{ env.BUILD_PLATFORM }}
@@ -156,7 +164,7 @@ jobs:
           context: .
           platforms: ${{ env.BUILD_PLATFORM }}
           push: false
-          file: docker/test_release.Dockerfile
+          file: py_bundler/docker/test_release.Dockerfile
           build-args: |
             CPA_NAME=${{ env.BIN_NAME }}
             DISTRO_NAME=${{ env.TEST_DISTRO_NAME }}

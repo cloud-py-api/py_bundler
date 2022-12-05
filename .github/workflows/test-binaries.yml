@@ -41,6 +41,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+        with:
+          repository: bigcat88/py_bundler
+          path: py_bundler
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
@@ -81,4 +85,4 @@ jobs:
             --platform linux/${{ matrix.i.arch }} \
             --build-arg BASE_IMAGE="${{ matrix.i['os'] }}:${{ matrix.i['ver'] }}" \
             --build-arg BIN_NAME="${{ env.BIN_NAME }}" \
-            -f docker/test_release_full.Dockerfile .
+            -f py_bundler/docker/test_release_full.Dockerfile .
