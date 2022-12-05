@@ -3,10 +3,6 @@ name: Publish Release
 on:
   workflow_dispatch:
   workflow_call:
-  workflow_run:
-    workflows: [ Prepare Release ]
-    types:
-      - completed
 
 concurrency:
   group: publish-release
@@ -14,7 +10,6 @@ concurrency:
 
 jobs:
   manylinux:
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     name: ManyLinux • ${{ matrix.build_arch }}
     runs-on: ubuntu-latest
     strategy:
@@ -95,7 +90,6 @@ jobs:
             DISTRO_NAME=${{ env.TEST_DISTRO_NAME }}
 
 #  musllinux:
-# if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
 #    name: MuslLinux • ${{ matrix.build_arch }}
 #    runs-on: ubuntu-latest
 #    strategy:
