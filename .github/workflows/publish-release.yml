@@ -174,20 +174,20 @@ jobs:
     name: Create Release
     runs-on: ubuntu-20.04
 
-  steps:
-    - name: Collect sdist and wheels
-      uses: actions/download-artifact@v3
-      with:
-        name: cpa_binaries
-        path: cpa_binaries
+    steps:
+      - name: Collect binaries
+        uses: actions/download-artifact@v3
+        with:
+          name: cpa_binaries
+          path: cpa_binaries
 
-    - run: ls -la . && ls -la cpa_binaries
+      - run: ls -la . && ls -la cpa_binaries
 
-    - name: Create release draft
-      uses: ncipollo/release-action@v1.11.2
-      with:
-        allowUpdates: true
-        commit: ${{ github.ref }}
-        draft: false
-        artifacts: cpa_binaries/*
-        artifactErrorsFailBuild: true
+      - name: Create release draft
+        uses: ncipollo/release-action@v1.11.2
+        with:
+          allowUpdates: true
+          commit: ${{ github.ref }}
+          draft: false
+          artifacts: cpa_binaries/*
+          artifactErrorsFailBuild: true
