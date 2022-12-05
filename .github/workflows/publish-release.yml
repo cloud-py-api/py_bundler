@@ -176,6 +176,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Collect binaries
         uses: actions/download-artifact@v3
         with:
