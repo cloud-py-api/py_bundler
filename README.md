@@ -8,7 +8,7 @@ It uses [Nuitka](https://github.com/Nuitka/Nuitka) for this.
 
 Bundler version: **0.0.1**
 
-Built-in Package Versions:
+Built-in Package Versions(it is recommended to use these pinned versions):
 
 - nc-py-api: **0.0.6**
 - numpy: **?**
@@ -25,8 +25,8 @@ Repository with your app should contain:
 After that you should copy two small **yaml** files(_**prepare/publish-release.yml**_) **from examples** to your repo.
 
 After that when you call `prepare-release.yml` it will first install & build all python libraries from `requirements.txt`
-and after that start **Nuitka** to make one binary standalone build.
-At the end, it will create(or update) a GitHub release with binaries.
+and after that starts **Nuitka** to make one file standalone build.
+At the end, it will create(or update) a GitHub release with produced binaries.
 
 The whole thing is split into two yaml files because it can take a very long time.
 

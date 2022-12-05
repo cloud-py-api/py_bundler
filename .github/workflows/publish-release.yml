@@ -175,6 +175,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
+      - uses: actions/checkout@v3
       - name: Collect binaries
         uses: actions/download-artifact@v3
         with:
