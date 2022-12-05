@@ -2,13 +2,17 @@
 
 This repository contains action files for building and packaging the part of the application written in python for Nextcloud.
 
+It uses [Nuitka](https://github.com/Nuitka/Nuitka) for this.
+
 ### Versions:
 
 Bundler version: **0.0.1**
 
-Packages versions:
+Built-in Package Versions:
 
 - nc-py-api: **0.0.6**
+- numpy: **?**
+- pillow: **?**
 
 ### Usage
 
@@ -18,6 +22,20 @@ Repository with your app should contain:
 - main.py (in the root, _structure of this file is in development..._)
 - folder with python code, that is imported from **main.py**
 
-As an example you could look at MediaDC, starting from **0.3.0** version it uses this bundler.
+After that you should copy two small **yaml** files(_**prepare/publish-release.yml**_) **from examples** to your repo.
+
+After that when you call `prepare-release.yml` it will first install & build all python libraries from `requirements.txt`
+and after that start **Nuitka** to make one binary standalone build.
+At the end, it will create(or update) a GitHub release with binaries.
+
+The whole thing is split into two yaml files because it can take a very long time.
+
+In normal situations you should not call `publish-release.yml` it will be called automatically after `prepare` finished.
+
+### Examples of using
+
+As an example you could look at [MediaDC](https://github.com/andrey18106/mediadc), starting from **0.3.0** version it uses this bundler.
+
+You can also take a look at [py-bundler-usage-demo]() as a basic example.
 
 _**More info will be added a little later, after the end of the design stage.**_
