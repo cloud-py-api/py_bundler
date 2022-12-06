@@ -8,11 +8,12 @@ It uses [Nuitka](https://github.com/Nuitka/Nuitka) for this.
 
 Bundler version: **0.0.1**
 
-Built-in Package Versions(it is recommended to use these pinned versions):
+Built-in Package Versions(it is recommended to use these pinned versions if needed):
 
 - nc-py-api: **0.0.6**
-- numpy: **?**
-- pillow: **?**
+- numpy: **1.21.4**
+- pillow: **9.3.0**
+- scipy: **1.7.2**
 
 ### Usage
 
@@ -36,6 +37,6 @@ In normal situations you should not call `publish-release.yml` it will be called
 
 As an example you could look at [MediaDC](https://github.com/andrey18106/mediadc), starting from **0.3.0** version it uses this bundler.
 
-You can also take a look at [py-bundler-usage-demo]() as a basic example.
+You can also take a look at [py-bundler-usage-demo](https://github.com/cloud_py_api/py-bundler-usage-demo) as a basic example.
 
 _**More info will be added a little later, after the end of the design stage.**_
