@@ -198,6 +198,6 @@ jobs:
           allowUpdates: true
           tag: ${{ steps.last_tag.outputs.tag }}
           commit: ${{ github.ref }}
-          draft: false
+          draft: true
           artifacts: cpa_binaries/*
           artifactErrorsFailBuild: true

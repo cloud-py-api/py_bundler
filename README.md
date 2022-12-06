@@ -31,8 +31,6 @@ At the end, it will create(or update) a GitHub release with produced binaries.
 
 The whole thing is split into two yaml files because it can take a very long time.
 
-In normal situations you should not call `publish-release.yml` it will be called automatically after `prepare` finished.
-
 ### Examples of using
 
 As an example you could look at [MediaDC](https://github.com/andrey18106/mediadc), starting from **0.3.0** version it uses this bundler.
