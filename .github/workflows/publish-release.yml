@@ -33,21 +33,21 @@ jobs:
         if: matrix.build_arch == 'arm64'
         run: |
           echo BUILD_PLATFORM="linux/arm64" >> $GITHUB_ENV
-          echo BIN_NAME="manylinux_arm64" >> $GITHUB_ENV
+          echo BIN_NAME="$BIN_PREFIX""manylinux_arm64" >> $GITHUB_ENV
           echo TEST_DISTRO_NAME="debian:10" >> $GITHUB_ENV
 
       - name: AMD64 prepare
         if: matrix.build_arch == 'amd64'
         run: |
           echo BUILD_PLATFORM="linux/amd64" >> $GITHUB_ENV
-          echo BIN_NAME="manylinux_amd64" >> $GITHUB_ENV
+          echo BIN_NAME="$BIN_PREFIX""manylinux_amd64" >> $GITHUB_ENV
           echo TEST_DISTRO_NAME="debian:10" >> $GITHUB_ENV
 
       - name: ARM7 prepare
         if: matrix.build_arch == 'armv7'
         run: |
           echo BUILD_PLATFORM="linux/arm/v7" >> $GITHUB_ENV
-          echo BIN_NAME="manylinux_armv7" >> $GITHUB_ENV
+          echo BIN_NAME="$BIN_PREFIX""manylinux_armv7" >> $GITHUB_ENV
           echo TEST_DISTRO_NAME="debian:11" >> $GITHUB_ENV
 
       - name: Build Release Binaries
@@ -113,21 +113,21 @@ jobs:
 #        if: matrix.build_arch == 'arm64'
 #        run: |
 #          echo BUILD_PLATFORM="linux/arm64" >> $GITHUB_ENV
-#          echo BIN_NAME="musllinux_arm64" >> $GITHUB_ENV
+#          echo BIN_NAME="$BIN_PREFIX""musllinux_arm64" >> $GITHUB_ENV
 #          echo TEST_DISTRO_NAME="alpine:3.15" >> $GITHUB_ENV
 #
 #      - name: AMD64 prepare
 #        if: matrix.build_arch == 'amd64'
 #        run: |
 #          echo BUILD_PLATFORM="linux/amd64" >> $GITHUB_ENV
-#          echo BIN_NAME="musllinux_amd64" >> $GITHUB_ENV
+#          echo BIN_NAME="$BIN_PREFIX""musllinux_amd64" >> $GITHUB_ENV
 #          echo TEST_DISTRO_NAME="alpine:3.15" >> $GITHUB_ENV
 #
 #      - name: ARM7 prepare
 #        if: matrix.build_arch == 'armv7'
 #        run: |
 #          echo BUILD_PLATFORM="linux/arm/v7" >> $GITHUB_ENV
-#          echo BIN_NAME="musllinux_armv7" >> $GITHUB_ENV
+#          echo BIN_NAME="$BIN_PREFIX""musllinux_armv7" >> $GITHUB_ENV
 #          echo TEST_DISTRO_NAME="alpine:3.15" >> $GITHUB_ENV
 #
 #      - name: Build Release Binaries
