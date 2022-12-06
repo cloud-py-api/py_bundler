@@ -3,6 +3,10 @@ name: Publish Release
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      bin_prefix:
+        required: false
+        type: string
 
 concurrency:
   group: publish-release
@@ -40,7 +44,7 @@ jobs:
         if: matrix.build_arch == 'amd64'
         run: |
           echo BUILD_PLATFORM="linux/amd64" >> $GITHUB_ENV
-          echo BIN_NAME="$BIN_PREFIX""manylinux_amd64" >> $GITHUB_ENV
+          echo BIN_NAME=${{ inputs.bin_prefix }}"manylinux_amd64" >> $GITHUB_ENV
           echo TEST_DISTRO_NAME="debian:10" >> $GITHUB_ENV
 
       - name: ARM7 prepare
