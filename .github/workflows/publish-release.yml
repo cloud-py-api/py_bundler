@@ -186,17 +186,17 @@ jobs:
 
       - run: ls -la . && ls -la cpa_binaries
 
-      - name: 'Get Previous tag'
-        id: previoustag
-        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+      - name: Get Last Tag
+        id: last_tag
+        uses: WyriHaximus/github-action-get-previous-tag@v1
         with:
-          fallback: 1.0.0
+          fallback: latest
 
       - name: Create release draft
         uses: ncipollo/release-action@v1.11.2
         with:
           allowUpdates: true
-          tag: ${{ steps.previoustag.outputs.tag }}
+          tag: ${{ steps.last_tag.outputs.tag }}
           commit: ${{ github.ref }}
           draft: false
           artifacts: cpa_binaries/*
