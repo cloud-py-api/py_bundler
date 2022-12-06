@@ -3,11 +3,11 @@ FROM $DISTRO_NAME
 
 COPY . /cpa
 
-ARG CPA_NAME
+ARG BIN_NAME
 
 RUN \
   cd /cpa && \
   ls -la . && \
-  chmod +x $CPA_NAME && \
+  chmod +x $BIN_NAME && \
   ls -la . && \
-  ./$CPA_NAME --info
+  ./$BIN_NAME --info

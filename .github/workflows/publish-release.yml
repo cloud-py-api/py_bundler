@@ -33,21 +33,21 @@ jobs:
         if: matrix.build_arch == 'arm64'
         run: |
           echo BUILD_PLATFORM="linux/arm64" >> $GITHUB_ENV
-          echo BIN_NAME="cpa_manylinux_arm64" >> $GITHUB_ENV
+          echo BIN_NAME="manylinux_arm64" >> $GITHUB_ENV
           echo TEST_DISTRO_NAME="debian:10" >> $GITHUB_ENV
 
       - name: AMD64 prepare
         if: matrix.build_arch == 'amd64'
         run: |
           echo BUILD_PLATFORM="linux/amd64" >> $GITHUB_ENV
-          echo BIN_NAME="cpa_manylinux_amd64" >> $GITHUB_ENV
+          echo BIN_NAME="manylinux_amd64" >> $GITHUB_ENV
           echo TEST_DISTRO_NAME="debian:10" >> $GITHUB_ENV
 
       - name: ARM7 prepare
         if: matrix.build_arch == 'armv7'
         run: |
           echo BUILD_PLATFORM="linux/arm/v7" >> $GITHUB_ENV
-          echo BIN_NAME="cpa_manylinux_armv7" >> $GITHUB_ENV
+          echo BIN_NAME="manylinux_armv7" >> $GITHUB_ENV
           echo TEST_DISTRO_NAME="debian:11" >> $GITHUB_ENV
 
       - name: Build Release Binaries
@@ -74,7 +74,7 @@ jobs:
       - name: Uploading binary
         uses: actions/upload-artifact@v3
         with:
-          name: cpa_binaries
+          name: cp_binaries
           path: ./${{ env.BIN_NAME }}.gz
           if-no-files-found: error
 
@@ -86,7 +86,7 @@ jobs:
           push: false
           file: py_bundler/docker/test_release.Dockerfile
           build-args: |
-            CPA_NAME=${{ env.BIN_NAME }}
+            BIN_NAME=${{ env.BIN_NAME }}
             DISTRO_NAME=${{ env.TEST_DISTRO_NAME }}
 
 #  musllinux:
@@ -113,21 +113,21 @@ jobs:
 #        if: matrix.build_arch == 'arm64'
 #        run: |
 #          echo BUILD_PLATFORM="linux/arm64" >> $GITHUB_ENV
-#          echo BIN_NAME="cpa_musllinux_arm64" >> $GITHUB_ENV
+#          echo BIN_NAME="musllinux_arm64" >> $GITHUB_ENV
 #          echo TEST_DISTRO_NAME="alpine:3.15" >> $GITHUB_ENV
 #
 #      - name: AMD64 prepare
 #        if: matrix.build_arch == 'amd64'
 #        run: |
 #          echo BUILD_PLATFORM="linux/amd64" >> $GITHUB_ENV
-#          echo BIN_NAME="cpa_musllinux_amd64" >> $GITHUB_ENV
+#          echo BIN_NAME="musllinux_amd64" >> $GITHUB_ENV
 #          echo TEST_DISTRO_NAME="alpine:3.15" >> $GITHUB_ENV
 #
 #      - name: ARM7 prepare
 #        if: matrix.build_arch == 'armv7'
 #        run: |
 #          echo BUILD_PLATFORM="linux/arm/v7" >> $GITHUB_ENV
-#          echo BIN_NAME="cpa_musllinux_armv7" >> $GITHUB_ENV
+#          echo BIN_NAME="musllinux_armv7" >> $GITHUB_ENV
 #          echo TEST_DISTRO_NAME="alpine:3.15" >> $GITHUB_ENV
 #
 #      - name: Build Release Binaries
@@ -154,7 +154,7 @@ jobs:
 #      - name: Uploading binary
 #        uses: actions/upload-artifact@v3
 #        with:
-#          name: cpa_binaries
+#          name: cp_binaries
 #          path: ./${{ env.BIN_NAME }}.gz
 #          if-no-files-found: error
 #
@@ -166,7 +166,7 @@ jobs:
 #          push: false
 #          file: py_bundler/docker/test_release.Dockerfile
 #          build-args: |
-#            CPA_NAME=${{ env.BIN_NAME }}
+#            BIN_NAME=${{ env.BIN_NAME }}
 #            DISTRO_NAME=${{ env.TEST_DISTRO_NAME }}
 
   draft_release:
@@ -181,10 +181,10 @@ jobs:
       - name: Collect binaries
         uses: actions/download-artifact@v3
         with:
-          name: cpa_binaries
-          path: cpa_binaries
+          name: cp_binaries
+          path: cp_binaries
 
-      - run: ls -la . && ls -la cpa_binaries
+      - run: ls -la . && ls -la cp_binaries
 
       - name: Get Last Tag
         id: last_tag
@@ -198,6 +198,6 @@ jobs:
           allowUpdates: true
           tag: ${{ steps.last_tag.outputs.tag }}
           commit: ${{ github.ref }}
-          draft: true
-          artifacts: cpa_binaries/*
+          draft: false
+          artifacts: cp_binaries/*
           artifactErrorsFailBuild: true
