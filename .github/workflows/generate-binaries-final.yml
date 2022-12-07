@@ -1,0 +1,173 @@
+name: Generate Binaries Final
+
+on:
+  workflow_call:
+    inputs:
+      bin_prefix:
+        required: false
+        type: string
+
+concurrency:
+  group: generate-binaries-final
+  cancel-in-progress: true
+
+jobs:
+  manylinux:
+    name: ManyLinux • ${{ matrix.build_arch }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        build_arch: [ "armv7", "arm64", "amd64" ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+        with:
+          repository: cloud-py-api/py_bundler
+          path: py_bundler
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: ARM64 prepare
+        if: matrix.build_arch == 'arm64'
+        run: |
+          echo BUILD_PLATFORM="linux/arm64" >> $GITHUB_ENV
+          echo BIN_NAME=${{ inputs.bin_prefix }}"manylinux_arm64" >> $GITHUB_ENV
+          echo TEST_DISTRO_NAME="debian:10" >> $GITHUB_ENV
+
+      - name: AMD64 prepare
+        if: matrix.build_arch == 'amd64'
+        run: |
+          echo BUILD_PLATFORM="linux/amd64" >> $GITHUB_ENV
+          echo BIN_NAME=${{ inputs.bin_prefix }}"manylinux_amd64" >> $GITHUB_ENV
+          echo TEST_DISTRO_NAME="debian:10" >> $GITHUB_ENV
+
+      - name: ARM7 prepare
+        if: matrix.build_arch == 'armv7'
+        run: |
+          echo BUILD_PLATFORM="linux/arm/v7" >> $GITHUB_ENV
+          echo BIN_NAME=${{ inputs.bin_prefix }}"manylinux_armv7" >> $GITHUB_ENV
+          echo TEST_DISTRO_NAME="debian:11" >> $GITHUB_ENV
+
+      - name: Build Release Binaries
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: py_bundler/docker/bundle_release.Dockerfile
+          build-args: |
+            BUILD_IMG=ghcr.io/cloud-py-api/py_bundler/manylinux_${{ matrix.build_arch }}:latest
+          platforms: ${{ env.BUILD_PLATFORM }}
+          push: false
+          cache-from: type=gha,scope=binaries-manylinux-${{ matrix.build_arch }}
+          outputs: type=docker,dest=/tmp/binaries-manylinux-${{ matrix.build_arch }}.tar
+          tags: binaries-manylinux-${{ matrix.build_arch }}:latest
+          target: binaries
+
+      - name: Get Release Binaries
+        run: |
+          docker load < /tmp/binaries-manylinux-${{ matrix.build_arch }}.tar
+          id=$(docker create binaries-manylinux-${{ matrix.build_arch }}:latest)
+          docker cp $id:/main.bin ${{ env.BIN_NAME }}
+          gzip -9 -c ${{ env.BIN_NAME }} > ${{ env.BIN_NAME }}.gz
+
+      - name: Uploading binary
+        uses: actions/upload-artifact@v3
+        with:
+          name: cp_binaries
+          path: ./${{ env.BIN_NAME }}.gz
+          if-no-files-found: error
+
+      - name: Test binary
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          platforms: ${{ env.BUILD_PLATFORM }}
+          push: false
+          file: py_bundler/docker/test_release.Dockerfile
+          build-args: |
+            BIN_NAME=${{ env.BIN_NAME }}
+            DISTRO_NAME=${{ env.TEST_DISTRO_NAME }}
+
+  musllinux:
+    name: MuslLinux • ${{ matrix.build_arch }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        build_arch: [ "armv7", "arm64", "amd64" ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+        with:
+          repository: cloud-py-api/py_bundler
+          path: py_bundler
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: ARM64 prepare
+        if: matrix.build_arch == 'arm64'
+        run: |
+          echo BUILD_PLATFORM="linux/arm64" >> $GITHUB_ENV
+          echo BIN_NAME=${{ inputs.bin_prefix }}"musllinux_arm64" >> $GITHUB_ENV
+          echo TEST_DISTRO_NAME="alpine:3.15" >> $GITHUB_ENV
+
+      - name: AMD64 prepare
+        if: matrix.build_arch == 'amd64'
+        run: |
+          echo BUILD_PLATFORM="linux/amd64" >> $GITHUB_ENV
+          echo BIN_NAME=${{ inputs.bin_prefix }}"musllinux_amd64" >> $GITHUB_ENV
+          echo TEST_DISTRO_NAME="alpine:3.15" >> $GITHUB_ENV
+
+      - name: ARM7 prepare
+        if: matrix.build_arch == 'armv7'
+        run: |
+          echo BUILD_PLATFORM="linux/arm/v7" >> $GITHUB_ENV
+          echo BIN_NAME=${{ inputs.bin_prefix }}"musllinux_armv7" >> $GITHUB_ENV
+          echo TEST_DISTRO_NAME="alpine:3.15" >> $GITHUB_ENV
+
+      - name: Build Release Binaries
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: py_bundler/docker/bundle_release.Dockerfile
+          build-args: |
+            BUILD_IMG=ghcr.io/cloud-py-api/py_bundler/musllinux_${{ matrix.build_arch }}:latest
+          platforms: ${{ env.BUILD_PLATFORM }}
+          push: false
+          cache-from: type=gha,scope=binaries-musllinux-${{ matrix.build_arch }}
+          outputs: type=docker,dest=/tmp/binaries-musllinux-${{ matrix.build_arch }}.tar
+          tags: binaries-musllinux-${{ matrix.build_arch }}:latest
+          target: binaries
+
+      - name: Get Release Binaries
+        run: |
+          docker load < /tmp/binaries-musllinux-${{ matrix.build_arch }}.tar
+          id=$(docker create binaries-musllinux-${{ matrix.build_arch }}:latest)
+          docker cp $id:/main.bin ${{ env.BIN_NAME }}
+          gzip -9 -c ${{ env.BIN_NAME }} > ${{ env.BIN_NAME }}.gz
+
+      - name: Uploading binary
+        uses: actions/upload-artifact@v3
+        with:
+          name: cp_binaries
+          path: ./${{ env.BIN_NAME }}.gz
+          if-no-files-found: error
+
+      - name: Test binary
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          platforms: ${{ env.BUILD_PLATFORM }}
+          push: false
+          file: py_bundler/docker/test_release.Dockerfile
+          build-args: |
+            BIN_NAME=${{ env.BIN_NAME }}
+            DISTRO_NAME=${{ env.TEST_DISTRO_NAME }}

@@ -1,0 +1,130 @@
+name: Build Base Image
+
+on:
+  pull_request:
+    branches: [master]
+    types: [opened, edited, reopened, synchronize]
+    paths:
+      - 'docker/build_framework.Dockerfile'
+      - 'scripts/*.*'
+  push:
+    branches: [master]
+    paths:
+      - 'docker/build_framework.Dockerfile'
+      - 'scripts/*.*'
+  workflow_dispatch:
+
+concurrency:
+  group: build-base
+  cancel-in-progress: true
+
+jobs:
+  manylinux:
+    name: ManyLinux • ${{ matrix.build_arch }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        build_arch: [ "armv7", "arm64", "amd64" ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: ARM64 prepare
+        if: matrix.build_arch == 'arm64'
+        run: |
+          echo BUILD_PLATFORM="linux/arm64" >> $GITHUB_ENV
+          echo BUILD_IMG="quay.io/pypa/manylinux2014_aarch64" >> $GITHUB_ENV
+          echo BASE_INIT_1="install_basic_centos.sh" >> $GITHUB_ENV
+          echo BASE_INIT_2="install_other_centos.sh" >> $GITHUB_ENV
+
+      - name: AMD64 prepare
+        if: matrix.build_arch == 'amd64'
+        run: |
+          echo BUILD_PLATFORM="linux/amd64" >> $GITHUB_ENV
+          echo BUILD_IMG="quay.io/pypa/manylinux2014_x86_64" >> $GITHUB_ENV
+          echo BASE_INIT_1="install_basic_centos.sh" >> $GITHUB_ENV
+          echo BASE_INIT_2="install_other_centos.sh" >> $GITHUB_ENV
+
+      - name: ARMv7 prepare
+        if: matrix.build_arch == 'armv7'
+        run: |
+          echo BUILD_PLATFORM="linux/arm/v7" >> $GITHUB_ENV
+          echo BUILD_IMG="debian:11" >> $GITHUB_ENV
+          echo BASE_INIT_1="install_basic_debian.sh" >> $GITHUB_ENV
+          echo BASE_INIT_2="install_other_debian.sh" >> $GITHUB_ENV
+
+      - name: Build Base Image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./scripts
+          file: docker/build_framework.Dockerfile
+          build-args: |
+            BUILD_IMG=${{ env.BUILD_IMG }}
+            BASE_INIT_1=${{ env.BASE_INIT_1 }}
+            BASE_INIT_2=${{ env.BASE_INIT_2 }}
+          platforms: ${{ env.BUILD_PLATFORM }}
+          push: false
+          cache-from: type=gha,scope=build-manylinux-${{ matrix.build_arch }}
+          cache-to: type=gha,mode=max,scope=build-manylinux-${{ matrix.build_arch }}
+          target: base
+
+  musllinux:
+    name: MuslLinux • ${{ matrix.build_arch }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        build_arch: [ "armv7", "arm64", "amd64" ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: ARM64 prepare
+        if: matrix.build_arch == 'arm64'
+        run: |
+          echo BUILD_PLATFORM="linux/arm64" >> $GITHUB_ENV
+          echo BUILD_IMG="alpine:3.15" >> $GITHUB_ENV
+          echo BASE_INIT_1="install_basic_alpine.sh" >> $GITHUB_ENV
+          echo BASE_INIT_2="install_other_alpine.sh" >> $GITHUB_ENV
+
+      - name: AMD64 prepare
+        if: matrix.build_arch == 'amd64'
+        run: |
+          echo BUILD_PLATFORM="linux/amd64" >> $GITHUB_ENV
+          echo BUILD_IMG="alpine:3.15" >> $GITHUB_ENV
+          echo BASE_INIT_1="install_basic_alpine.sh" >> $GITHUB_ENV
+          echo BASE_INIT_2="install_other_alpine.sh" >> $GITHUB_ENV
+
+      - name: ARMv7 prepare
+        if: matrix.build_arch == 'armv7'
+        run: |
+          echo BUILD_PLATFORM="linux/arm/v7" >> $GITHUB_ENV
+          echo BUILD_IMG="alpine:3.15" >> $GITHUB_ENV
+          echo BASE_INIT_1="install_basic_alpine.sh" >> $GITHUB_ENV
+          echo BASE_INIT_2="install_other_alpine.sh" >> $GITHUB_ENV
+
+      - name: Build Base Image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./scripts
+          file: docker/build_framework.Dockerfile
+          build-args: |
+            BUILD_IMG=${{ env.BUILD_IMG }}
+            BASE_INIT_1=${{ env.BASE_INIT_1 }}
+            BASE_INIT_2=${{ env.BASE_INIT_2 }}
+          platforms: ${{ env.BUILD_PLATFORM }}
+          push: false
+          cache-from: type=gha,scope=build-musllinux-${{ matrix.build_arch }}
+          cache-to: type=gha,mode=max,scope=build-musllinux-${{ matrix.build_arch }}
+          target: base
