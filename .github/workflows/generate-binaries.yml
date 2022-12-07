@@ -1,10 +1,10 @@
-name: Prepare Release
+name: Generate Binaries
 
 on:
   workflow_call:
 
 concurrency:
-  group: prepare-release
+  group: generate-binaries
   cancel-in-progress: true
 
 jobs:

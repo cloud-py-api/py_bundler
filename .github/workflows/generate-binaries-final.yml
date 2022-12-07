@@ -1,4 +1,4 @@
-name: Publish Release
+name: Generate Binaries Final
 
 on:
   workflow_call:
@@ -8,7 +8,7 @@ on:
         type: string
 
 concurrency:
-  group: publish-release
+  group: generate-binaries-final
   cancel-in-progress: true
 
 jobs:
@@ -172,36 +172,3 @@ jobs:
           build-args: |
             BIN_NAME=${{ env.BIN_NAME }}
             DISTRO_NAME=${{ env.TEST_DISTRO_NAME }}
-
-  draft_release:
-    needs: [manylinux]
-    name: Create Release
-    runs-on: ubuntu-20.04
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Collect binaries
-        uses: actions/download-artifact@v3
-        with:
-          name: cp_binaries
-          path: cp_binaries
-
-      - run: ls -la . && ls -la cp_binaries
-
-      - name: Get Last Tag
-        id: last_tag
-        uses: WyriHaximus/github-action-get-previous-tag@v1
-        with:
-          fallback: latest
-
-      - name: Create release draft
-        uses: ncipollo/release-action@v1.11.2
-        with:
-          allowUpdates: true
-          tag: ${{ steps.last_tag.outputs.tag }}
-          commit: ${{ github.ref }}
-          draft: false
-          artifacts: cp_binaries/*
-          artifactErrorsFailBuild: true
