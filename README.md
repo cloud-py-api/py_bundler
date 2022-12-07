@@ -31,12 +31,10 @@ At the end, it will create(or update) a GitHub release with produced binaries.
 
 The whole thing is split into two yaml files because it can take a very long time.
 
-You should modify second yml file(`publish-release`) according to your project, add there other stuff you needed.
+You should modify second yml file(`publish-release`) according to your project, add the other stuff you needed.
 
 ### Examples of using
 
 As an example you could look at [MediaDC](https://github.com/andrey18106/mediadc), starting from **0.3.0** version it uses this bundler.
 
 You can also take a look at [py-bundler-usage-demo](https://github.com/cloud_py_api/py-bundler-usage-demo) as a basic example.
-
-_**More info will be added a little later, after the end of the design stage.**_

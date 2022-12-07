@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/checkout@v3
         with:
-          repository: bigcat88/py_bundler
+          repository: cloud-py-api/py_bundler
           path: py_bundler
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -59,7 +59,7 @@ jobs:
           context: .
           file: py_bundler/docker/bundle_release.Dockerfile
           build-args: |
-            BUILD_IMG=ghcr.io/bigcat88/py_bundler/manylinux_${{ matrix.build_arch }}:latest
+            BUILD_IMG=ghcr.io/cloud-py-api/py_bundler/manylinux_${{ matrix.build_arch }}:latest
           platforms: ${{ env.BUILD_PLATFORM }}
           push: false
           cache-from: type=gha,scope=binaries-manylinux-${{ matrix.build_arch }}
@@ -104,7 +104,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/checkout@v3
         with:
-          repository: bigcat88/py_bundler
+          repository: cloud-py-api/py_bundler
           path: py_bundler
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -139,7 +139,7 @@ jobs:
           context: .
           file: py_bundler/docker/bundle_release.Dockerfile
           build-args: |
-            BUILD_IMG=ghcr.io/bigcat88/py_bundler/musllinux_${{ matrix.build_arch }}:latest
+            BUILD_IMG=ghcr.io/cloud-py-api/py_bundler/musllinux_${{ matrix.build_arch }}:latest
           platforms: ${{ env.BUILD_PLATFORM }}
           push: false
           cache-from: type=gha,scope=binaries-musllinux-${{ matrix.build_arch }}

@@ -67,7 +67,7 @@ jobs:
           platforms: ${{ env.BUILD_PLATFORM }}
           push: true
           cache-from: type=gha,scope=build-manylinux-${{ matrix.build_arch }}
-          tags: ghcr.io/bigcat88/py_bundler/manylinux_${{ matrix.build_arch }}:latest
+          tags: ghcr.io/cloud-py-api/py_bundler/manylinux_${{ matrix.build_arch }}:latest
           target: framework
 
 
@@ -130,5 +130,5 @@ jobs:
           platforms: ${{ env.BUILD_PLATFORM }}
           push: true
           cache-from: type=gha,scope=build-musllinux-${{ matrix.build_arch }}
-          tags: ghcr.io/bigcat88/py_bundler/musllinux_${{ matrix.build_arch }}:latest
+          tags: ghcr.io/cloud-py-api/py_bundler/musllinux_${{ matrix.build_arch }}:latest
           target: framework
