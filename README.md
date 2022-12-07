@@ -15,6 +15,8 @@ Built-in Package Versions(it is recommended to use these pinned versions if need
 - pillow: **9.3.0**
 - scipy: **1.7.2**
 
+Bundled Python version: **3.9**
+
 ### Usage
 
 Repository with your app should contain:
@@ -23,18 +25,8 @@ Repository with your app should contain:
 - main.py (in the root)
 - folder with python code, that is imported from **main.py**
 
-After that you should copy two small **yaml** files(_**generate-binaries/publish-release.yml**_) **from examples** to your repo.
+Look at [py-bundler-demo](https://github.com/cloud-py-api/py_bundler-demo) as a basic example **with description**.
 
-After that when you call `generate-binaries.yml` it will first install & build all python libraries from `requirements.txt`
-and after that starts **Nuitka** to make one file standalone build.
-At the end, it will create(or update) a GitHub release with produced binaries.
+### Applications that uses this:
 
-The whole thing is split into two yaml files because it can take a very long time.
-
-You should modify second yml file(`publish-release`) according to your project, add the other stuff you needed.
-
-### Examples of using
-
-As an example you could look at [MediaDC](https://github.com/andrey18106/mediadc), starting from **0.3.0** version it uses this bundler.
-
-You can also take a look at [py-bundler-usage-demo](https://github.com/cloud_py_api/py-bundler-usage-demo) as a basic example.
+- [MediaDC](https://github.com/andrey18106/mediadc), starting from **0.3.0** version it uses this bundler.
