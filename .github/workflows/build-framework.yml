@@ -2,6 +2,10 @@ name: Build Framework Image
 
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows: [ Build Base Image ]
+    types:
+      - completed
 
 concurrency:
   group: build-framework
