@@ -20,16 +20,18 @@ Built-in Package Versions(it is recommended to use these pinned versions if need
 Repository with your app should contain:
 
 - requirements.txt (in the root)
-- main.py (in the root, _structure of this file is in development..._)
+- main.py (in the root)
 - folder with python code, that is imported from **main.py**
 
-After that you should copy two small **yaml** files(_**prepare/publish-release.yml**_) **from examples** to your repo.
+After that you should copy two small **yaml** files(_**generate-binaries/publish-release.yml**_) **from examples** to your repo.
 
-After that when you call `prepare-release.yml` it will first install & build all python libraries from `requirements.txt`
+After that when you call `generate-binaries.yml` it will first install & build all python libraries from `requirements.txt`
 and after that starts **Nuitka** to make one file standalone build.
 At the end, it will create(or update) a GitHub release with produced binaries.
 
 The whole thing is split into two yaml files because it can take a very long time.
+
+You should modify second yml file(`publish-release`) according to your project, add there other stuff you needed.
 
 ### Examples of using
 
