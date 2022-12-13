@@ -24,7 +24,7 @@ RUN \
 FROM base as framework
 
 RUN \
-  python3 -m pip install numpy==1.21.4 pillow==9.3.0 nc_py_api==0.0.6
+  python3 -m pip install numpy==1.21.4 pillow==9.3.0 nc_py_api==0.0.7
 
 RUN \
   python3 -m pip install scipy==1.7.2
