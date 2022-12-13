@@ -10,7 +10,7 @@ Bundler version: **0.0.1**
 
 Built-in Package Versions(it is recommended to use these pinned versions if needed):
 
-- nc-py-api: **0.0.6**
+- nc-py-api: **0.0.7**
 - numpy: **1.21.4**
 - pillow: **9.3.0**
 - scipy: **1.7.2**
