@@ -2,13 +2,10 @@ name: Build Base Image
 
 on:
   pull_request:
-    branches: [master]
-    types: [opened, edited, reopened, synchronize]
     paths:
       - 'docker/build_framework.Dockerfile'
       - 'scripts/*.*'
   push:
-    branches: [master]
     paths:
       - 'docker/build_framework.Dockerfile'
       - 'scripts/*.*'
