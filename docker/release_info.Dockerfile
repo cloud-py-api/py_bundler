@@ -7,7 +7,6 @@ ARG BIN_NAME
 
 RUN \
   cd /cpa && \
-  ls -la . && \
   chmod +x $BIN_NAME && \
   ls -la . && \
   ./$BIN_NAME --info

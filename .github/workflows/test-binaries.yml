@@ -1,0 +1,97 @@
+name: Test binaries
+
+on:
+  workflow_call:
+    inputs:
+      test_args:
+        required: false
+        type: string
+      version_prefix:
+        required: false
+        type: string
+
+
+jobs:
+  docker-tests:
+    name: 🐍 • ${{ matrix.i['os'] }} • ${{ matrix.i['ver'] }} • ${{ matrix.i['arch'] }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        i: [
+          { "os": "amazonlinux", "ver": "latest", "arch": "amd64" },
+          { "os": "amazonlinux", "ver": "latest", "arch": "arm64" },
+          { "os": "oraclelinux", "ver": "8", "arch": "amd64" },
+          { "os": "oraclelinux", "ver": "8", "arch": "arm64" },
+          { "os": "fedora", "ver": "35", "arch": "amd64" },
+          { "os": "fedora", "ver": "37", "arch": "amd64" },
+          { "os": "centos", "ver": "7", "arch": "amd64" },
+          { "os": "centos", "ver": "7", "arch": "arm64" },
+          { "os": "debian", "ver": "10", "arch": "amd64" },
+          { "os": "debian", "ver": "10", "arch": "arm64" },
+          { "os": "debian", "ver": "11", "arch": "amd64" },
+          { "os": "debian", "ver": "11", "arch": "arm64" },
+          { "os": "debian", "ver": "11", "arch": "arm/v7" },
+          { "os": "alpine", "ver": "3.14", "arch": "amd64" },
+          { "os": "alpine", "ver": "3.14", "arch": "arm64" },
+          { "os": "alpine", "ver": "3.14", "arch": "arm/v7" },
+          { "os": "alpine", "ver": "3.15", "arch": "amd64" },
+          { "os": "alpine", "ver": "3.15", "arch": "arm64" },
+          { "os": "alpine", "ver": "3.16", "arch": "amd64" },
+          { "os": "alpine", "ver": "3.16", "arch": "arm64" },
+          { "os": "alpine", "ver": "3.16", "arch": "arm/v7" },
+          { "os": "alpine", "ver": "3.17", "arch": "amd64" },
+          { "os": "alpine", "ver": "3.17", "arch": "arm64" },
+          { "os": "alpine", "ver": "3.17", "arch": "arm/v7" },
+        ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+        with:
+          repository: cloud-py-api/py_bundler
+          path: py_bundler
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Binary type manylinux_x64
+        if: matrix.i['os'] != 'alpine' && matrix.i['arch'] == 'amd64'
+        run: echo BIN_TYPE="manylinux_amd64" >> $GITHUB_ENV
+
+      - name: Binary type manylinux_arm64
+        if: matrix.i['os'] != 'alpine' && matrix.i['arch'] == 'arm64'
+        run: echo BIN_TYPE="manylinux_arm64" >> $GITHUB_ENV
+
+      - name: Binary type manylinux_armv7
+        if: matrix.i['os'] != 'alpine' && matrix.i['arch'] == 'arm/v7'
+        run: echo BIN_TYPE="manylinux_armv7" >> $GITHUB_ENV
+
+      - name: Binary type musllinux_x64
+        if: matrix.i['os'] == 'alpine' && matrix.i['arch'] == 'amd64'
+        run: echo BIN_TYPE="musllinux_amd64" >> $GITHUB_ENV
+
+      - name: Binary type manylinux_arm64
+        if: matrix.i['os'] == 'alpine' && matrix.i['arch'] == 'arm64'
+        run: echo BIN_TYPE="musllinux_arm64" >> $GITHUB_ENV
+
+      - name: Binary type manylinux_armv7
+        if: matrix.i['os'] == 'alpine' && matrix.i['arch'] == 'arm/v7'
+        run: echo BIN_TYPE="musllinux_armv7" >> $GITHUB_ENV
+
+      - name: Preparations
+        run: |
+          APP_ID="$(sed -n "s/<id>\(.*\)<\/id>/\\1/p" ./appinfo/info.xml | tr -d '\t' | sed -n 1p)"
+          APP_VERSION="$(sed -n "s/<version>\(.*\)<\/version>/\\1/p" ./appinfo/info.xml | tr -d '\t' | sed -n 1p)"
+          BIN_NAME="$APP_ID"_"$BIN_TYPE"
+          echo BIN_NAME="$BIN_NAME" >> $GITHUB_ENV
+          wget -q $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/releases/download/${{ inputs.version_prefix }}$APP_VERSION/$BIN_NAME.gz
+          gzip -d $BIN_NAME.gz
+
+      - name: Run tests
+        run: |
+          docker buildx build \
+            --platform linux/${{ matrix.i.arch }} \
+            --build-arg BASE_IMAGE="${{ matrix.i['os'] }}:${{ matrix.i['ver'] }}" \
+            --build-arg BIN_NAME="${{ env.BIN_NAME }}" \
+            --build-arg TEST_ARGS="${{ inputs.test_args }}" \
+            -f py_bundler/docker/test_binaries.Dockerfile .

@@ -31,7 +31,7 @@ jobs:
       - name: Get Bin Prefix
         run: |
           APP_ID="$(sed -n "s/<id>\(.*\)<\/id>/\\1/p" ./appinfo/info.xml | tr -d '\t' | sed -n 1p)"
-          echo BIN_PREFIX="$APP_ID" >> $GITHUB_ENV   
+          echo BIN_PREFIX="$APP_ID" >> $GITHUB_ENV
 
       - name: ARM64 prepare
         if: matrix.build_arch == 'arm64'
@@ -88,7 +88,7 @@ jobs:
           context: .
           platforms: ${{ env.BUILD_PLATFORM }}
           push: false
-          file: py_bundler/docker/test_release.Dockerfile
+          file: py_bundler/docker/release_info.Dockerfile
           build-args: |
             BIN_NAME=${{ env.BIN_NAME }}
             DISTRO_NAME=${{ env.TEST_DISTRO_NAME }}
@@ -173,7 +173,7 @@ jobs:
           context: .
           platforms: ${{ env.BUILD_PLATFORM }}
           push: false
-          file: py_bundler/docker/test_release.Dockerfile
+          file: py_bundler/docker/release_info.Dockerfile
           build-args: |
             BIN_NAME=${{ env.BIN_NAME }}
             DISTRO_NAME=${{ env.TEST_DISTRO_NAME }}
