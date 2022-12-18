@@ -10,12 +10,18 @@ Bundler version: **0.0.3**
 
 Built-in Package Versions(it is recommended to use these pinned versions if needed):
 
-- nc-py-api: **0.0.8**
-- numpy: **1.21.4**
 - pillow: **9.3.0**
+- numpy: **1.21.4**
 - scipy: **1.7.2**
 
+Nc-Py-API DB dependencies versions:
+
+- pynacl: **1.5.0**
+- pymysql: **1.0.2**
+- pg8000: **1.29.4**
+
 Bundled Python version: **3.9**
+Nuitka version: **1.2.7**
 
 ### Usage
 

@@ -1,10 +1,6 @@
 name: Build Base Image
 
 on:
-  pull_request:
-    paths:
-      - 'docker/build_framework.Dockerfile'
-      - 'scripts/*.*'
   push:
     paths:
       - 'docker/build_framework.Dockerfile'

@@ -13,10 +13,11 @@ concurrency:
 
 jobs:
   manylinux:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     name: ManyLinux • ${{ matrix.build_arch }}
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         build_arch: [ "armv7", "arm64", "amd64" ]
 
@@ -71,15 +72,16 @@ jobs:
           platforms: ${{ env.BUILD_PLATFORM }}
           push: true
           cache-from: type=gha,scope=build-manylinux-${{ matrix.build_arch }}
-          tags: ghcr.io/cloud-py-api/py_bundler/manylinux_${{ matrix.build_arch }}:latest
+          cache-to: type=gha,mode=max,scope=build-manylinux-${{ matrix.build_arch }}
+          tags: ghcr.io/${{ github.repository }}/manylinux_${{ matrix.build_arch }}:latest
           target: framework
 
-
   musllinux:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     name: MuslLinux • ${{ matrix.build_arch }}
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         build_arch: [ "armv7", "arm64", "amd64" ]
 
@@ -134,5 +136,6 @@ jobs:
           platforms: ${{ env.BUILD_PLATFORM }}
           push: true
           cache-from: type=gha,scope=build-musllinux-${{ matrix.build_arch }}
-          tags: ghcr.io/cloud-py-api/py_bundler/musllinux_${{ matrix.build_arch }}:latest
+          cache-to: type=gha,mode=max,scope=build-musllinux-${{ matrix.build_arch }}
+          tags: ghcr.io/${{ github.repository }}/musllinux_${{ matrix.build_arch }}:latest
           target: framework

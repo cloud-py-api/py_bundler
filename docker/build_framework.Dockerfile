@@ -17,14 +17,28 @@ RUN \
 
 RUN \
   python3 -m pip install --upgrade pip && \
-  python3 -m pip install --upgrade setuptools wheel ordered-set && \
-  python3 -m pip install --upgrade nuitka
+  python3 -m pip install --upgrade setuptools wheel ordered-set
+
+RUN \
+  python3 -m pip install nuitka==1.2.7
 
 
 FROM base as framework
 
 RUN \
-  python3 -m pip install numpy==1.21.4 pillow==9.3.0 nc_py_api==0.0.8
+  python3 -m pip install pynacl==1.5.0
+
+RUN \
+  python3 -m pip install pymysql==1.0.2
+
+RUN \
+  python3 -m pip install pg8000==1.29.4
+
+RUN \
+  python3 -m pip install pillow==9.3.0
+
+RUN \
+  python3 -m pip install numpy==1.21.4
 
 RUN \
   python3 -m pip install scipy==1.7.2
