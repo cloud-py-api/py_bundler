@@ -10,7 +10,6 @@ on:
         required: false
         type: string
 
-
 jobs:
   docker-tests:
     name: 🐍 • ${{ matrix.i['os'] }} • ${{ matrix.i['ver'] }} • ${{ matrix.i['arch'] }}
