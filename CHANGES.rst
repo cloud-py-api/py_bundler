@@ -5,7 +5,7 @@ Changelog (Py-Bundler)
 ------------------
 
 - Nuitka updated and pinned to ``1.2.7`` version
-- ``pynacl`` and ``cryptography`` are now installed for `pymysql`
+- ``pynacl`` are now installed for `pymysql`
 - pinned ``pg8000`` and ``pymysql`` versions
 - *nc-py-api* was removed from images, it will be installed during generating binaries.
 - Github Actions improvements and fixes

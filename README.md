@@ -17,7 +17,6 @@ Built-in Package Versions(it is recommended to use these pinned versions if need
 Nc-Py-API DB dependencies versions:
 
 - pynacl: **1.5.0**
-- cryptography: **38.0.4**
 - pymysql: **1.0.2**
 - pg8000: **1.29.4**
 
