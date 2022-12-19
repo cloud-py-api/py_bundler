@@ -9,9 +9,9 @@ yum -y install \
   ./config no-shared --prefix=/usr/local/ssl --openssldir=/usr/local/ssl && \
   make && make install_sw && \
   cd .. && \
-  wget https://www.python.org/ftp/python/3.9.15/Python-3.9.15.tgz && \
-  tar xvf Python-3.9.15.tgz && \
-  cd Python-3.9.15 && \
+  wget https://www.python.org/ftp/python/3.9.16/Python-3.9.16.tgz && \
+  tar xvf Python-3.9.16.tgz && \
+  cd Python-3.9.16 && \
   ./configure --with-openssl=/usr/local/ssl --enable-optimizations && \
   make install && \
   cd ..

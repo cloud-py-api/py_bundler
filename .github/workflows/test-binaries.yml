@@ -30,18 +30,12 @@ jobs:
           { "os": "debian", "ver": "10", "arch": "arm64" },
           { "os": "debian", "ver": "11", "arch": "amd64" },
           { "os": "debian", "ver": "11", "arch": "arm64" },
-          { "os": "debian", "ver": "11", "arch": "arm/v7" },
           { "os": "alpine", "ver": "3.14", "arch": "amd64" },
           { "os": "alpine", "ver": "3.14", "arch": "arm64" },
-          { "os": "alpine", "ver": "3.14", "arch": "arm/v7" },
-          { "os": "alpine", "ver": "3.15", "arch": "amd64" },
-          { "os": "alpine", "ver": "3.15", "arch": "arm64" },
           { "os": "alpine", "ver": "3.16", "arch": "amd64" },
           { "os": "alpine", "ver": "3.16", "arch": "arm64" },
-          { "os": "alpine", "ver": "3.16", "arch": "arm/v7" },
           { "os": "alpine", "ver": "3.17", "arch": "amd64" },
           { "os": "alpine", "ver": "3.17", "arch": "arm64" },
-          { "os": "alpine", "ver": "3.17", "arch": "arm/v7" },
         ]
 
     steps:
@@ -61,10 +55,6 @@ jobs:
         if: matrix.i['os'] != 'alpine' && matrix.i['arch'] == 'arm64'
         run: echo BIN_TYPE="manylinux_arm64" >> $GITHUB_ENV
 
-      - name: Binary type manylinux_armv7
-        if: matrix.i['os'] != 'alpine' && matrix.i['arch'] == 'arm/v7'
-        run: echo BIN_TYPE="manylinux_armv7" >> $GITHUB_ENV
-
       - name: Binary type musllinux_x64
         if: matrix.i['os'] == 'alpine' && matrix.i['arch'] == 'amd64'
         run: echo BIN_TYPE="musllinux_amd64" >> $GITHUB_ENV
@@ -72,10 +62,6 @@ jobs:
       - name: Binary type manylinux_arm64
         if: matrix.i['os'] == 'alpine' && matrix.i['arch'] == 'arm64'
         run: echo BIN_TYPE="musllinux_arm64" >> $GITHUB_ENV
-
-      - name: Binary type manylinux_armv7
-        if: matrix.i['os'] == 'alpine' && matrix.i['arch'] == 'arm/v7'
-        run: echo BIN_TYPE="musllinux_armv7" >> $GITHUB_ENV
 
       - name: Preparations
         run: |
