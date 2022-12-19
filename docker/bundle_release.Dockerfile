@@ -10,6 +10,9 @@ RUN \
 
 FROM release as binaries
 
+RUN \
+  python3 -m pip install nuitka==1.2.7
+
 COPY . /build
 
 RUN \

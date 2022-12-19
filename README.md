@@ -16,11 +16,12 @@ Built-in Package Versions(it is recommended to use these pinned versions if need
 
 Nc-Py-API DB dependencies versions:
 
+- cryptography: **38.0.4**
 - pynacl: **1.5.0**
 - pymysql: **1.0.2**
 - pg8000: **1.29.4**
 
-Bundled Python version: **3.9**
+Bundled Python version: **3.9.16**
 Nuitka version: **1.2.7**
 
 ### Usage
