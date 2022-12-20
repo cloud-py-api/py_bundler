@@ -1,10 +1,10 @@
-name: Generate Binaries Final
+name: Generate Binaries-2
 
 on:
   workflow_call:
 
 concurrency:
-  group: generate-binaries-final
+  group: generate-binaries
   cancel-in-progress: true
 
 jobs:
@@ -32,7 +32,7 @@ jobs:
       - name: Get Bin Prefix
         run: |
           APP_ID="$(sed -n "s/<id>\(.*\)<\/id>/\\1/p" ./appinfo/info.xml | tr -d '\t' | sed -n 1p)"
-          echo BIN_NAME="$APP_ID_$BIN_SUFFIX" >> $GITHUB_ENV
+          echo BIN_NAME="$APP_ID"_"$BIN_SUFFIX" >> $GITHUB_ENV
         env:
           BIN_SUFFIX: ${{ matrix.build_linux }}_${{ matrix.build_arch }}
 

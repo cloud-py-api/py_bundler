@@ -6,7 +6,7 @@ It uses [Nuitka](https://github.com/Nuitka/Nuitka) for this.
 
 ### Versions:
 
-Bundler version: **0.0.3**
+Bundler version: **0.0.4**
 
 Built-in Package Versions(it is recommended to use these pinned versions if needed):
 
@@ -22,6 +22,7 @@ Nc-Py-API DB dependencies versions:
 - pg8000: **1.29.4**
 
 Bundled Python version: **3.9.16**
+
 Nuitka version: **1.2.7**
 
 ### Usage

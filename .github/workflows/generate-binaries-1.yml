@@ -1,4 +1,4 @@
-name: Generate Binaries
+name: Generate Binaries-1
 
 on:
   workflow_call:

@@ -1,6 +1,13 @@
 Changelog (Py-Bundler)
 ======================
 
+0.0.4 (2022-12-20)
+------------------
+
+- Test command in docker images run now from binaries stored in artifacts
+- Fixed prefix in created binaries name, was broken by 0.0.3 version update
+- Renamed ``generate-binaries`` yaml files.
+
 0.0.3 (2022-12-19)
 ------------------
 
