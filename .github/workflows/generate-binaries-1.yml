@@ -29,7 +29,7 @@ jobs:
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Build Release Image
+      - name: Install dependencies
         uses: docker/build-push-action@v3
         with:
           context: .
@@ -40,4 +40,3 @@ jobs:
           push: false
           cache-from: type=gha,scope=binaries-${{ matrix.build_linux }}-${{ matrix.build_arch }}
           cache-to: type=gha,mode=min,scope=binaries-${{ matrix.build_linux }}-${{ matrix.build_arch }}
-          target: release
