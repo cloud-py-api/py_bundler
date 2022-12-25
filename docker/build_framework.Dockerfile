@@ -34,13 +34,31 @@ RUN \
   python3 -m pip install pg8000==1.29.4 && rm -rf ~/.cache
 
 RUN \
+  python3 -m pip install numpy==1.23.4 && rm -rf ~/.cache
+
+RUN \
+  python3 -m pip install scipy==1.9.3 && rm -rf ~/.cache
+
+RUN \
+  python3 -m pip install Cython==0.29.32 setuptools==64.0.3 && \
+  python3 -m pip install pywavelets==1.4.1 --no-deps && rm -rf ~/.cache
+
+RUN \
+  python3 -m pip install matplotlib==3.6.2 && rm -rf ~/.cache
+
+RUN \
+  python3 -m pip install filterpy==1.4.5 && rm -rf ~/.cache
+
+RUN \
   python3 -m pip install pillow==9.3.0 && rm -rf ~/.cache
 
 RUN \
-  python3 -m pip install numpy==1.21.4 && rm -rf ~/.cache
-
-RUN \
-  python3 -m pip install scipy==1.7.2 && rm -rf ~/.cache
+  if [ -f /usr/bin/apt ]; then \
+    python3 -m pip install opencv-python==4.6.0.66 --no-deps && rm -rf ~/.cache; \
+  fi
 
 RUN \
   python3 -m pip install nuitka==1.2.7 && rm -rf ~/.cache
+
+RUN \
+  python3 -m pip list
