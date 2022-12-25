@@ -16,28 +16,31 @@ RUN \
   rm /install_other.sh
 
 RUN \
-  python3 -m pip install pip==22.3.1 wheel==0.38.4 ordered-set==4.1.0
+  python3 -m pip install pip==22.3.1 wheel==0.38.4 ordered-set==4.1.0 && rm -rf ~/.cache
 
 
 FROM base as framework
 
 RUN \
-  python3 -m pip install cryptography==38.0.4
+  python3 -m pip install cryptography==38.0.4 && rm -rf ~/.cache
 
 RUN \
-  python3 -m pip install pynacl==1.5.0
+  python3 -m pip install pynacl==1.5.0 && rm -rf ~/.cache
 
 RUN \
-  python3 -m pip install pymysql==1.0.2
+  python3 -m pip install pymysql==1.0.2 && rm -rf ~/.cache
 
 RUN \
-  python3 -m pip install pg8000==1.29.4
+  python3 -m pip install pg8000==1.29.4 && rm -rf ~/.cache
 
 RUN \
-  python3 -m pip install pillow==9.3.0
+  python3 -m pip install pillow==9.3.0 && rm -rf ~/.cache
 
 RUN \
-  python3 -m pip install numpy==1.21.4
+  python3 -m pip install numpy==1.21.4 && rm -rf ~/.cache
 
 RUN \
-  python3 -m pip install scipy==1.7.2
+  python3 -m pip install scipy==1.7.2 && rm -rf ~/.cache
+
+RUN \
+  python3 -m pip install nuitka==1.2.7 && rm -rf ~/.cache

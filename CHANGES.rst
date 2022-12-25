@@ -1,6 +1,12 @@
 Changelog (Py-Bundler)
 ======================
 
+0.0.5 (2022-12-21)
+------------------
+
+- ``ccache`` added, to speed up assembly when only project sources was changed.
+- docker images optimizations.
+
 0.0.4 (2022-12-20)
 ------------------
 

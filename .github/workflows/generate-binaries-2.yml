@@ -44,7 +44,7 @@ jobs:
         if: matrix.build_linux == 'musllinux'
         run: echo TEST_DISTRO_NAME="alpine:3.14" >> $GITHUB_ENV
 
-      - name: Build Release Binaries
+      - name: Build Image
         uses: docker/build-push-action@v3
         with:
           context: .
@@ -54,15 +54,25 @@ jobs:
           platforms: linux/${{ matrix.build_arch }}
           push: false
           cache-from: type=gha,scope=binaries-${{ matrix.build_linux }}-${{ matrix.build_arch }}
-          outputs: type=docker,dest=/tmp/binaries-${{ matrix.build_linux }}-${{ matrix.build_arch }}.tar
+          outputs: type=docker
           tags: binaries-${{ matrix.build_linux }}-${{ matrix.build_arch }}:latest
-          target: binaries
 
-      - name: Get Release Binaries
+      - name: Nuitka cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ github.workspace }}/nu_cache
+          key: nu-cache-${{ matrix.build_linux }}-${{ matrix.build_arch }}-${{ hashFiles('requirements.txt') }}
+
+      - name: Build binary
         run: |
-          docker load < /tmp/binaries-${{ matrix.build_linux }}-${{ matrix.build_arch }}.tar
-          id=$(docker create binaries-${{ matrix.build_linux }}-${{ matrix.build_arch }}:latest)
-          docker cp $id:/main.bin ${{ env.BIN_NAME }}
+          mkdir -p nu_cache
+          docker run \
+            --mount type=bind,src=${{ github.workspace }}/nu_cache,dst=/root/.cache/Nuitka \
+            --mount type=bind,src=${{ github.workspace }},dst=/project \
+            --workdir /project \
+            binaries-${{ matrix.build_linux }}-${{ matrix.build_arch }}:latest \
+            /bin/bash -c "python3 -m nuitka --plugin-enable=numpy --standalone --onefile main.py"
+          mv main.bin ${{ env.BIN_NAME }}
           gzip -9 -c ${{ env.BIN_NAME }} > ${{ env.BIN_NAME }}.gz
 
       - name: Uploading binary

@@ -6,7 +6,7 @@ It uses [Nuitka](https://github.com/Nuitka/Nuitka) for this.
 
 ### Versions:
 
-Bundler version: **0.0.4**
+Bundler version: **0.0.5**
 
 Built-in Package Versions(it is recommended to use these pinned versions if needed):
 
