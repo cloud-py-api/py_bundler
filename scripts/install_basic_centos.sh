@@ -1,7 +1,7 @@
 #!/bin/sh
 
 OPENSSL_VER=1.1.1s
-PYTHON_VER=3.9.16
+PYTHON_VER=3.10.9
 
 yum -y install \
   libffi-devel \

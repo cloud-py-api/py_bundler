@@ -46,7 +46,7 @@ jobs:
       - name: MuslLinux prepare
         if: matrix.build_linux == 'musllinux'
         run: |
-          echo BUILD_IMG="alpine:3.15" >> $GITHUB_ENV
+          echo BUILD_IMG="alpine:3.17" >> $GITHUB_ENV
           echo BASE_INIT_1="install_basic_alpine.sh" >> $GITHUB_ENV
           echo BASE_INIT_2="install_other_alpine.sh" >> $GITHUB_ENV
 
