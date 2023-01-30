@@ -71,10 +71,10 @@ jobs:
             --mount type=bind,src=${{ github.workspace }},dst=/project \
             --workdir /project \
             binaries-${{ matrix.build_linux }}-${{ matrix.build_arch }}:latest \
-            /bin/sh -c "python3 -m nuitka --plugin-enable=numpy --standalone --onefile main.py"
-          mv main.bin ${{ env.BIN_NAME }}
-          gzip -9 -c ${{ env.BIN_NAME }} > ${{ env.BIN_NAME }}.gz
-          out=$(shasum -a 256 ${{ env.BIN_NAME }}) && echo "${out%%[!0-9A-Za-z]*}" > ${{ env.BIN_NAME }}.sha256
+            /bin/sh -c "python3 -m nuitka --plugin-enable=numpy --standalone main.py"
+          mv main.dist ${{ env.BIN_NAME }}
+          tar czf ${{ env.BIN_NAME }}.tar.gz ${{ env.BIN_NAME }}
+          python3 py_bundler/generate_hashes.py ${{ env.BIN_NAME }}
 
       - name: Uploading binary
         uses: actions/upload-artifact@v3
