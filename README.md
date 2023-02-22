@@ -6,17 +6,17 @@ It uses [Nuitka](https://github.com/Nuitka/Nuitka) for this.
 
 ### Versions:
 
-Bundler version: **0.0.6**
+Bundler version: **0.0.7**
 
 Built-in Package Versions(it is recommended to use these pinned versions if needed):
 
-- pillow: **9.3.0**
+- pillow: **9.4.0**
 - numpy: **1.23.4**
 - scipy: **1.9.3**
 - PyWavelets: **1.4.1**
 - matplotlib: **3.6.2**
 - filterpy: **1.4.5**
-- OpenCV: **4.6.0** (Note: on Alpine it will be not visible for PIP)
+- OpenCV: **4.6.0** (Note: currently on Alpine it is not visible for PIP)
 
 Nc-Py-API DB dependencies versions:
 
@@ -27,7 +27,7 @@ Nc-Py-API DB dependencies versions:
 
 Bundled Python version: **3.10.9**
 
-Nuitka version: **1.2.7**
+Nuitka version: **1.3.8**
 
 ### Usage
 

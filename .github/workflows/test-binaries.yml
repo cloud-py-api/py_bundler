@@ -72,7 +72,7 @@ jobs:
           APP_ID="$(sed -n "s/<id>\(.*\)<\/id>/\\1/p" ./appinfo/info.xml | tr -d '\t' | sed -n 1p)"
           BIN_NAME="$APP_ID"_"$BIN_TYPE"
           echo BIN_NAME="$BIN_NAME" >> $GITHUB_ENV
-          gzip -d cp_binaries/$BIN_NAME.gz
+          tar xf cp_binaries/$BIN_NAME.tar.gz
 
       - name: Run tests
         run: |

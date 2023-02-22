@@ -1,6 +1,14 @@
 Changelog (Py-Bundler)
 ======================
 
+0.0.7 (2023-02-02)
+------------------
+
+- Updated Nuitka to `1.3.8`
+- Binaries now generated as directory and packed to archive, speed boost during startup.
+- Hashes are now present for each file in archive and for archive itself.
+- Updated Pillow to `9.4.0`
+
 0.0.6 (2022-12-25)
 ------------------
 

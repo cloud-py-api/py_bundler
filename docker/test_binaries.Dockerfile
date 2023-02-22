@@ -8,5 +8,7 @@ ARG TEST_ARGS
 
 RUN \
   cd /cpa && \
-  chmod +x cp_binaries/$BIN_NAME && \
-  ./cp_binaries/$BIN_NAME $TEST_ARGS
+  chmod +x $BIN_NAME/main && \
+  ls -la $BIN_NAME && \
+  ls -la . && \
+  ./$BIN_NAME/main $TEST_ARGS

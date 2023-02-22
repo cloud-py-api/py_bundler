@@ -50,7 +50,7 @@ RUN \
   python3 -m pip install filterpy==1.4.5 && rm -rf ~/.cache
 
 RUN \
-  python3 -m pip install pillow==9.3.0 && rm -rf ~/.cache
+  python3 -m pip install pillow==9.4.0 && rm -rf ~/.cache
 
 RUN \
   if [ -f /usr/bin/apt ]; then \
@@ -58,7 +58,7 @@ RUN \
   fi
 
 RUN \
-  python3 -m pip install nuitka==1.2.7 && rm -rf ~/.cache
+  python3 -m pip install nuitka==1.3.8 && rm -rf ~/.cache
 
 RUN \
   python3 -m pip list
