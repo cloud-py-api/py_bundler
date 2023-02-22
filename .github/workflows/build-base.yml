@@ -51,7 +51,7 @@ jobs:
           echo BASE_INIT_2="install_other_alpine.sh" >> $GITHUB_ENV
 
       - name: Build Base Image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: ./scripts
           file: docker/build_framework.Dockerfile

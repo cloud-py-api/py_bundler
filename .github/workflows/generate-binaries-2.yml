@@ -45,7 +45,7 @@ jobs:
         run: echo TEST_DISTRO_NAME="alpine:3.14" >> $GITHUB_ENV
 
       - name: Build Image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           file: py_bundler/docker/bundle_release.Dockerfile
@@ -84,7 +84,7 @@ jobs:
           if-no-files-found: error
 
       - name: Test binary
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           platforms: linux/${{ matrix.build_arch }}
