@@ -42,7 +42,7 @@ jobs:
 
       - name: MuslLinux prepare
         if: matrix.build_linux == 'musllinux'
-        run: echo TEST_DISTRO_NAME="alpine:3.14" >> $GITHUB_ENV
+        run: echo TEST_DISTRO_NAME="alpine:3.18" >> $GITHUB_ENV
 
       - name: Build Image
         uses: docker/build-push-action@v4
